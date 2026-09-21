@@ -1,0 +1,109 @@
+model Biblioteca_v1
+----------- Enumeration -----------
+enum TipoArticulo{libro, revista}
+enum TipoPrestatario{profesor,estudiante, estPosgrado}
+------- End of Enumerations --------
+---------- Classes --------------
+abstract class Persona
+attributes
+    nombre : String
+    direccion : String
+end
+
+class Biblioteca
+    attributes
+    direccion : String
+    maxPrestamos : Integer
+end
+abstract class Prestatario < Persona    
+    attributes
+    nombre : String
+    apellido: String
+    direccion : String
+    tipo : TipoPrestatario
+end
+class Bibliotecario
+    attributes
+    nombre : String
+    direccion : String
+end
+
+class Articulo
+    attributes
+    titulo : String
+    isbn : String
+    tipo : TipoArticulo
+end
+
+class Ejemplar
+    attributes
+    fechaFabricacion : Integer
+    codigoBarras : String
+end
+
+class Profesor < Prestatario
+attributes
+depto : String
+antiguedad : Integer
+end
+class EstPosgrado < Prestatario
+attributes
+depto : String
+end
+class Estudiante < Prestatario
+attributes
+curso : Integer
+end
+class Articulo
+attributes
+titulo : String
+isbn : String
+tipo : TipoArticulo
+end
+class Ejemplar
+attributes
+fechaFabricacion : Integer
+codigoBarras : String
+end
+------ End of Classes ------
+
+------- Associations --------
+association trabajador between
+    Biblioteca[1] role bibliotecas
+    Bibliotecario[1] role bibliotecario
+end
+association clientes between
+    Biblioteca[1..*] role bibliotecas
+    Prestatario[0..*] role prestatarios
+end
+association prestamos between
+    Prestatario[0..1] role prestatarios
+    Articulo[0..*] role articulos
+end
+association catalogo between
+    Biblioteca[1] role bibliotecas
+    Articulo[1..*] role articulos
+end
+aggregation registro between
+    Biblioteca[1] role biblioteca
+    Ejemplar[1..*] role ejemplares
+end 
+
+composition ejemplares between
+    Articulo[1] role articulo
+    Ejemplar[1..*] role ejemplar
+end
+
+---- End of Associations -----
+
+--- Assocation Classes -----
+associationclass Prestamo between
+Prestatario[0..*] role prestatario
+Ejemplar[0..*] role ejemplar
+attributes
+    fechaInicio : Integer
+    fechaFin : Integer
+    maxDias : Integer derive :
+        fechaFin - fechaInicio
+end
+-- End of Association Classes--

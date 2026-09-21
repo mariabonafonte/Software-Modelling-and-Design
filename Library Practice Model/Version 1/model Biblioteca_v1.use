@@ -1,0 +1,50 @@
+model Biblioteca_v1
+----------- Enumeration -----------
+enum TipoArticulo{libro, revista}
+enum TipoPrestatario{profesor,estudiante, estPosgrado}
+------- End of Enumerations --------
+---------- Classes --------------
+class Biblioteca
+    attributes
+    direccion : String
+    maxPrestamos : Integer
+end
+class Prestatario
+    attributes
+    nombre : String
+    apellido: String
+    direccion : String
+    tipo : TipoPrestatario
+end
+class Bibliotecario
+    attributes
+    nombre : String
+    direccion : String
+end
+
+class Articulo
+    attributes
+    titulo : String
+    isbn : String
+    tipo : TipoArticulo
+end
+------ End of Classes ------
+
+------- Associations --------
+association trabajador between
+    Biblioteca[1] role bibliotecas
+    Bibliotecario[1] role bibliotecario
+end
+association clientes between
+    Biblioteca[1..*] role bibliotecas
+    Prestatario[0..*] role prestatarios
+end
+association prestamos between
+    Prestatario[0..1] role prestatarios
+    Articulo[0..*] role articulos
+end
+association registro between
+    Biblioteca[1] role bibliotecas
+    Articulo[1..*] role articulos
+end
+---- End of Associations -----
