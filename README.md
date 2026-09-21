@@ -22,7 +22,8 @@ The coursework covers topics related to:
 
 Depending on the project, this repository may include:
 
-* USE
+* USE (UML-based Specification Environment)
+* UML
 
 ### 👩‍💻 Author
 
