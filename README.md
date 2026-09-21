@@ -5,7 +5,7 @@ Repository containing the Coursework and projects for the Software Modelling and
 
 * Degree: Software Engineering
 * University: Universidad de Málaga (UMA)
-* Year: 2nd Year
+* Year: 3rd Year
 * Course: Software Modelling and Design
 * Academic Year: 2026/2027
 
