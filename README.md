@@ -9,7 +9,8 @@ Repository containing the Coursework and projects for the Software Modelling and
 * Course: Software Modelling and Design
 * Academic Year: 2026/2027
 
-### 📂 Repository Contents
+### 📂 Repository Content
+* 📝 Library Model: The repository contains different versions of a library management system model, developed using USE (UML-based Specification Environment).The model evolves through different versions, adding more detailed classes, relationships, inheritance, aggregations, compositions, and derived attributes.
 
 
 ### 🧠 Topics
