@@ -1,0 +1,71 @@
+model Practica1
+----------- Enumeration -----------
+enum TipoPrenda{camiseta, jersey, pantalon}
+enum Estado{muySucio, sucio, limpio}
+------- End of Enumerations --------
+---------- Classes --------------
+class Lavadora
+attributes
+    marca : String
+    capMaxDetergente : Integer
+    tempMax: Integer
+    revMax: Integer
+    pesoMax: Integer
+end
+
+class Normal < Lavadora    
+    attributes
+    peso : Integer
+    suavizanteMax : Integer
+end
+class Secadora < Lavadora    
+    attributes
+    tempMaxSecado : Integer
+end
+
+class Prenda
+attributes
+    tipo : TipoPrenda
+    peso : Integer
+    estado : Estado
+end
+
+abstract class Colada
+attributes
+    tempLavado : Integer
+    revCentrifugado : Integer
+    cantDetergente : Integer
+    faseLavado : Integer
+    faseCentrifugado : Integer
+    finLavadoCompleto : Integer
+end
+class ColadaNormal < Colada
+attributes
+    cantSuavizante : Integer
+end
+class ColadaSecadora < Colada
+attributes
+    tempSecado : Integer
+    faseSecado : Integer
+end 
+
+
+------ End of Classes ------
+------- Associations --------
+association lavadoSecado between
+    Secadora[0..1] role secadora
+    ColadaSecadora[0..*] role coladasSecado
+end
+association lavadoNormal between
+    Normal[0..1] role lavadora
+    ColadaNormal[0..*] role coladasNormal
+end
+association ColadasNormal between
+    ColadaNormal[0..1] role colada
+    Prenda[0..*] role prendasNormal
+end
+association ColadasSecadora between
+    ColadaSecadora[0..1] role coladaSecado
+    Prenda[0..*] role prendasSecado
+end
+---- End of Associations -----
