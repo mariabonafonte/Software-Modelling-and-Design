@@ -1,0 +1,118 @@
+model Lavadora
+
+enum TipoPrenda {Camiseta,Jersey,Pantalon}
+enum EstadoPrenda{MuySucio,Sucio,Limpio}
+
+----------Clases---------------------
+abstract class Lavadora
+attributes
+    marca : String 
+    capDetergente : Integer 
+    maxTempLavado : Integer 
+    maxCentrifugado : Integer 
+    maxPeso : Integer 
+    enFuncionamiento : Boolean derive :
+        ColadaNormal.allInstances->exists(c |
+            c.lavadora = self and
+            (c.inicioL.isDefined() or c.inicioC.isDefined()) and
+            c.fin.isUndefined())
+        or
+        ColadaSecado.allInstances->exists(c |
+            c.lavadora = self and
+            (c.inicioL.isDefined() or c.inicioC.isDefined()) and
+            c.fin.isUndefined())
+end              
+
+class LavadoraNormal < Lavadora 
+attributes 
+    capSuavizante : Integer 
+end 
+
+class LavadoraSecadora < Lavadora 
+attributes
+    maxTempSecado : Integer 
+end 
+
+abstract class Colada
+attributes
+    temp : Integer 
+    rpm : Integer 
+    cantDetergente : Integer 
+    inicioL : Integer
+    inicioC : Integer 
+    fin : Integer 
+    peso : Integer derive : self.prendas->collect(peso)->sum()
+end
+
+class ColadaNormal < Colada 
+attributes 
+    cantSuavizante : Integer 
+end
+
+class ColadaSecado < Colada 
+attributes 
+    inicioS: Integer 
+    tempSecado : Integer 
+end
+
+class Prenda 
+attributes 
+    tipo : TipoPrenda
+    peso : Integer 
+end
+
+--------Asociaciones-------------
+composition LavaNormal between 
+    LavadoraNormal [1] role lavadora
+    ColadaNormal [*] role coladas ordered
+end 
+
+composition LavaSeca between 
+    LavadoraSecadora [1] role lavadora
+    ColadaSecado [*] role coladas ordered 
+end 
+
+associationclass Estado between 
+    Colada[*] role coladas
+    Prenda[*] role prendas 
+    attributes 
+        estado : EstadoPrenda 
+end
+
+--------Invariantes-------------
+constraints
+
+context LavadoraNormal
+    inv LimiteTempLavado: self.maxTempLavado <= 60
+    inv LimiteCentrifugado: self.maxCentrifugado <= 1800
+
+context LavadoraSecadora
+    inv LimiteTempSecado: self.maxTempSecado <= 40
+    inv LimiteCentrifugado: self.maxCentrifugado <= 1200
+
+context Colada
+    inv MaxMitadMuySuciasSiSupera5Kg: self.peso > 5000 implies
+        Estado.allInstances->select(e | e.coladas = self and e.estado = #MuySucio)->size() * 2 <= self.prendas->size()
+
+context ColadaNormal
+    inv LavadoOCentrifugado: self.inicioL.isDefined() or self.inicioC.isDefined()
+    inv LavadoAntesCentrifugado: self.inicioL.isDefined() and self.inicioC.isDefined() implies self.inicioL < self.inicioC
+    inv DetergenteDentroCapacidad: self.cantDetergente <= self.lavadora.capDetergente
+    inv SuavizanteDentroCapacidad: self.cantSuavizante <= self.lavadora.capSuavizante
+    inv LimiteTempLavadoDentro: self.temp <= self.lavadora.maxTempLavado
+    inv LimiteCentrifugadoDentro: self.rpm <= self.lavadora.maxCentrifugado
+    inv LimitePesoDentro: self.peso <= self.lavadora.maxPeso
+
+    
+
+context ColadaSecado
+    inv LavadoOCentrifugado: self.inicioL.isDefined() or self.inicioC.isDefined()
+    inv LavadoAntesCentrifugado: self.inicioL.isDefined() and self.inicioC.isDefined() implies self.inicioL < self.inicioC
+    inv FaseSecadoObligatoria: self.inicioS.isDefined()
+    inv LavadoAntesSecado: self.inicioL.isDefined() implies self.inicioL < self.inicioS
+    inv CentrifugadoAntesSecado: self.inicioC.isDefined() implies self.inicioC < self.inicioS
+    inv CapacidadDetergenteDentro: self.cantDetergente <= self.lavadora.capDetergente
+    inv LimiteTempLavadoDentro: self.temp <= self.lavadora.maxTempLavado
+    inv LimiteTempSecadoDentro: self.tempSecado <= self.lavadora.maxTempSecado
+    inv LimiteCentrifugadoDentro: self.rpm <= self.lavadora.maxCentrifugado
+    inv LimitePesoDentro: self.peso <= self.lavadora.maxPeso
