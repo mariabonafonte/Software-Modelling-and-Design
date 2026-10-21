@@ -11,11 +11,11 @@ Repository containing the Coursework and projects for the Software Modelling and
 
 ### 📂 CourseWork
 * #### Class Practices
-* 📁 [Library Practice Model](./Library%Practice%20Model/)
+* 📁 [Library Practice Model](./Library%20Practice%20Model/)
   
 * #### Lab Practices
-* 📁 [Lab Practice 1](./Lab%Practice%201/)
-* 📁 [Lab Practice 2](./Lab%Practice%202/)
+* 📁 [Lab Practice 1](./Lab%20Practice%201/)
+* 📁 [Lab Practice 2](./Lab%20Practice%202/)
 
 
 
@@ -30,4 +30,3 @@ Software Engineering student at the University of Málaga.
 ⸻
 
 This repository is maintained as part of the Software Modelling and Design coursework.
-
