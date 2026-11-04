@@ -20,7 +20,7 @@ public abstract class Colada {
 		this.cantDetergente = cantDetergente;
 		this.lavadora = lavadora;
 
-		this.inicioL = -1
+		this.inicioL = -1;
 		this.inicioC = -1;
 		this.fin = -1;
 
@@ -28,7 +28,7 @@ public abstract class Colada {
 	}
 
 	public void agregarPrenda(Prenda prenda, EstadoPrenda estadoInicial) {
-		Estado relacion = new Estado(prenda, this, estadoInicial);
+		Estado relacion = new Estado(this, prenda, estadoInicial);
 		this.estados.add(relacion);
 	}
 
