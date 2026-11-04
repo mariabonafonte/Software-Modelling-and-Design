@@ -16,16 +16,8 @@ public class Prenda {
 		return tipo;
 	}
 
-	public void setTipo(TipoPrenda tipo) {
-		this.tipo = tipo;
-	}
-
 	public int getPeso() {
 		return peso;
-	}
-
-	public void setPeso(int peso) {
-		this.peso = peso;
 	}
 
 	public Collection<Estado> getEstados() {

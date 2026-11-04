@@ -1,15 +1,18 @@
 package main.Java.etsii.mds.lavadoras;
 
 public class ColadaSecado extends Colada {
-
-	LavadoraSecadora lavadora;
-	private int inicioS;
+	private int inicios;
 	private int tempSecado;
 
-	public ColadaSecado(int temp, int rpm, int inicioL, int cantDetergente, int inicioC, int fin, int peso, int inicioS, int tempSecado) {
-		super(temp, rpm, inicioL, cantDetergente, inicioC, fin, peso);
-		this.inicioS = inicioS;
+	public ColadaSecado(int temp, int rpm, int cantDetergente, LavadoraSecadora lavadora, int tempSecado) {
+		super(temp, rpm, cantDetergente, lavadora);
+		this.inicios = -1;
 		this.tempSecado = tempSecado;
-		this.lavadora = new LavadoraSecadora();
 	}
+
+	public int getInicios() { return inicios; }
+	public void setInicios(int inicios) { this.inicios = inicios; }
+
+	public int getTempSecado() { return tempSecado; }
+	public void setTempSecado(int tempSecado) { this.tempSecado = tempSecado; }
 }

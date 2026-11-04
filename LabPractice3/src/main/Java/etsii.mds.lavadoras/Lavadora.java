@@ -1,12 +1,15 @@
 package main.Java.etsii.mds.lavadoras;
 
-public abstract class Lavadora {
+import java.util.ArrayList;
+import java.util.List;
 
+public abstract class Lavadora {
 	private String marca;
 	private int capDetergente;
 	private int maxTempLavado;
 	private int maxCentrifugado;
 	private int maxPeso;
+	protected List<Colada> coladas;
 
 	public Lavadora(String marca, int capDetergente, int maxTempLavado, int maxCentrifugado, int maxPeso) {
 		this.marca = marca;
@@ -14,48 +17,37 @@ public abstract class Lavadora {
 		this.maxTempLavado = maxTempLavado;
 		this.maxCentrifugado = maxCentrifugado;
 		this.maxPeso = maxPeso;
-	}
-
-	public String getMarca() {
-		return marca;
-	}
-
-	public void setMarca(String marca) {
-		this.marca = marca;
+		this.coladas = new ArrayList<Colada>();
 	}
 
 	public int getCapDetergente() {
 		return capDetergente;
 	}
-
-	public void setCapDetergente(int capDetergente) {
-		this.capDetergente = capDetergente;
-	}
-
 	public int getMaxTempLavado() {
 		return maxTempLavado;
 	}
-
-	public void setMaxTempLavado(int maxTempLavado) {
-		this.maxTempLavado = maxTempLavado;
-	}
-
 	public int getMaxPeso() {
 		return maxPeso;
 	}
-
-	public void setMaxPeso(int maxPeso) {
-		this.maxPeso = maxPeso;
-	}
-
 	public int getMaxCentrifugado() {
 		return maxCentrifugado;
 	}
 
-	public void setMaxCentrifugado(int maxCentrifugado) {
-		this.maxCentrifugado = maxCentrifugado;
+	//los atributos derivdos los convertimos en metodos
+	public boolean enFuncionamiento() {
+		for (Colada c : coladas) {
+			// Si la colada ha empezado (iniciol != -1) y no ha terminado (fin == -1)
+			if (c.getInicioL() != -1 && c.getFin() == -1) {
+				return true;
+			}
+		}
+		return false;
+	}
+	public void agregarColada(Colada colada) {
+		this.coladas.add(colada);
 	}
 
-	//los atributos derivdos los convertimos en metodos
-	public abstract boolean enFuncionamiento();
+	public List<Colada> getColadas() { return coladas; }
+	public String getMarca() { return marca; }
+
 }

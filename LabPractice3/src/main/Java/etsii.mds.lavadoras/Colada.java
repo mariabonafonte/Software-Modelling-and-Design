@@ -3,7 +3,6 @@ import java.util.*;
 
 public abstract class Colada {
 
-	Collection<Estado> estados;
 	private int temp;
 	private int rpm;
 	private int cantDetergente;
@@ -12,52 +11,37 @@ public abstract class Colada {
 	private int fin;
 	private int peso;
 
-	public Colada(int temp, int rpm, int inicioL, int cantDetergente, int inicioC, int fin, int peso) {
+	protected Lavadora lavadora;
+	protected List<Estado> estados;
+
+	public Colada(int temp, int rpm, int cantDetergente, Lavadora lavadora) {
 		this.temp = temp;
 		this.rpm = rpm;
-		this.inicioL = inicioL;
 		this.cantDetergente = cantDetergente;
-		this.inicioC = inicioC;
-		this.fin = fin;
-		this.peso = peso;
+		this.lavadora = lavadora;
+
+		this.inicioL = -1
+		this.inicioC = -1;
+		this.fin = -1;
+
+		this.estados = new ArrayList<>();
 	}
 
-	public int getTemp() {
-		return temp;
-	}
-
-	public void setTemp(int temp) {
-		this.temp = temp;
-	}
-
-	public int getRpm() {
-		return rpm;
-	}
-
-	public void setRpm(int rpm) {
-		this.rpm = rpm;
+	public void agregarPrenda(Prenda prenda, EstadoPrenda estadoInicial) {
+		Estado relacion = new Estado(prenda, this, estadoInicial);
+		this.estados.add(relacion);
 	}
 
 	public int getInicioL() {
 		return inicioL;
 	}
-
 	public void setInicioL(int inicioL) {
 		this.inicioL = inicioL;
-	}
-
-	public int getCantDetergente() {
-		return cantDetergente;
-	}
-
-	public void setCantDetergente(int cantDetergente) {
-		this.cantDetergente = cantDetergente;
 	}
 
 	public int getInicioC() {
 		return inicioC;
 	}
-
 	public void setInicioC(int inicioC) {
 		this.inicioC = inicioC;
 	}
@@ -65,17 +49,17 @@ public abstract class Colada {
 	public int getFin() {
 		return fin;
 	}
-
 	public void setFin(int fin) {
 		this.fin = fin;
 	}
 
 	public int getPeso() {
-		return peso;
+		int pesoTotal = 0;
+		for (Estado e : estados) {
+			pesoTotal += e.getPrenda().getPeso();
+		}
+		return pesoTotal;
 	}
 
-	public void setPeso(int peso) {
-		this.peso = peso;
-	}
 
 }
