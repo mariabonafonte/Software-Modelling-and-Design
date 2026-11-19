@@ -16,6 +16,9 @@ Repository containing the Coursework and projects for the Software Modelling and
 * #### Lab Practices
 📁 [Lab Practice 1](./Lab%20Practice%201/)
 📁 [Lab Practice 2](./Lab%20Practice%202/)
+📁 [Lab Practice 3](./LabPractice3/)
+📁 [Lab Practice 5](./LabPractice5/)
+📁 [Lab Practice 6](./LabPractice6/)
 
 
 
